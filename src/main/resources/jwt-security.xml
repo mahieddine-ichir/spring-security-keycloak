@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+          http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+	<context:component-scan base-package="net.michir" />
+	<context:annotation-config />
+
+	<http pattern="/**" auto-config='false' create-session="stateless"
+		entry-point-ref="entryPoint" use-expressions="true">
+
+		<intercept-url pattern="/private/**" access="hasRole('APPLICATION')" />
+		<intercept-url pattern="/public/**" access="permitAll()" />
+
+		<intercept-url pattern="/**" method="OPTIONS" access="permitAll()" />
+		<intercept-url pattern="/**" access="hasRole('USER')" />
+
+		<custom-filter ref="optionsFilter" before="BASIC_AUTH_FILTER" />
+		<custom-filter ref="tokenFilter" after="BASIC_AUTH_FILTER" />
+		<csrf disabled="true" />
+	</http>
+
+	<beans:bean id="optionsFilter" class="net.michir.config.keycloak.OptionsFilter" />
+
+	<beans:bean id="entryPoint"
+		class="org.springframework.security.web.authentication.HttpStatusEntryPoint">
+		<beans:constructor-arg name="httpStatus">
+			<beans:value type="org.springframework.http.HttpStatus">UNAUTHORIZED</beans:value>
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<!-- Authentication manager -->
+	<authentication-manager alias="authenticationManager">
+		<!-- Access token -->
+		<authentication-provider ref="tokenAuthenticationProvider" />
+	</authentication-manager>
+
+	<!-- Token authentication provider -->
+	<beans:bean id="tokenAuthenticationProvider"
+		class="net.michir.config.keycloak.TokenAuthenticationProvider" />
+
+	<!-- OAuth2 Token authentication filter -->
+	<beans:bean id="tokenFilter" class="net.michir.config.keycloak.TokenFilterBean" />
+
+</beans:beans>
