@@ -22,16 +22,20 @@ I prefer keeping these cross concerns apart from code_.
     *grant_type* tokens (generally described as Service Accounts). Remember that
     these tokens are issued using only applications _clientId_ and _clientSecret_.
     
-    These kind of _logged_ entities are expeced (in the xml config file `token-security.xml`) 
-    to have _APPLICATION_ Role. This role is extracted from the `realm_access.roles` (keycloak) token claim 
+    These _logged_ entities are expected 
+    to contain _APPLICATION_ Role. This role is extracted from the `realm_access.roles` (keycloak) token claim 
     (remember that keycloak generates JWT tokens format)
 
     The `/private/**` are generally reserved when systems want to access their resources
     (API to API calls for example)
- * `/**` **secured** accessible by users as their **resources** (classical Restfull resources).
-    such endpoints are accessible by tokens obtained from an OAuth2 or an OpenId Connect server
+ * `/**` **secured** accessible by users as their **resources** (standard Restfull resources).
+    Such endpoints are accessible by tokens obtained from an OAuth2 or an OpenId Connect server
     using _standard web flows_ (Authorization Code or Implicit flow) or (not recommanded) _Password credentials
     flow_
+    
+    These logged user in this scope are expected
+    to contain _USER_ Role. Also extracted from the `realm_access.roles` (keycloak) token claim 
+    
 
 ## Using the lib in your web module
 
