@@ -69,7 +69,7 @@ I prefer keeping these cross concerns apart from code_.
 
 _Important to note that in this library, we are not using the keycloak introspection endpoint as 
 calling a remote http server on every received token may be rapidly an issue, especially in full API micro service
-applications ... loosing the benefit of the JWT format auto-signed tokens.
+applications ... loosing the benefit of the JWT format auto-signed tokens._
 
-Sign keys retrieved from the keycloak and generated public keys objects are cached. 
-_
+_Sign keys retrieved from the keycloak and generated public keys objects are cached._ 
+
