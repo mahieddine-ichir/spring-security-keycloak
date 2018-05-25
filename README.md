@@ -64,12 +64,15 @@ I prefer keeping these cross concerns apart from code_.
    	</context-param>
     </web-app>
 ```
-3. Do not forget to specify there config parameter when starting you application 
+3. Do not forget to specify these two config parameters when starting you application 
  
  - `keycloak.publicCertsUrl` keycloak public certs endpoint
   for example *http://localhost:8080/auth/realms/myrealm/protocol/openid-connect/certs*
  - `keycloak.realmUrl` keycloak realm URL (as needed by the keycloak admin lib for token verification)
   for example *http://localhost:8080/auth/realms/myrealm*
+
+Through environment variables for example (generally preferred in cloud environments) or through standard
+`application.properties|yml` spring config files.
 
 _Important to note that in this library, we are not using the keycloak introspection endpoint as 
 calling a remote http server on every received token may be rapidly an issue, especially in full API micro service
