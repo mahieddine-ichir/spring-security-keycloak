@@ -13,7 +13,7 @@ in `src/main/resources/token-security.xml`.
 _I am using spring security namespace config's - 
 I prefer keeping these cross concerns apart from code_.
  
-## Routes
+### Routes config
  The config defines three routes securities
  
  * `/public/**` **non secured** resources (static, helpers, ... that are 
